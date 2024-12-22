@@ -1,0 +1,159 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+/* Container for the form */
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 480px;
+}
+
+/* Facebook Logo Styling */
+.fb-logo h1 {
+    font-size: 48px;
+    color: #1877f2;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.fb-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+/* Input fields */
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Submit button */
+.fb-submit .login {
+    width: 100%;
+    padding: 12px;
+    background-color: #1877f2;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.fb-submit .login:hover {
+    background-color: #165eab;
+}
+
+/* Forgot password link */
+.forgot {
+    display: block;
+    margin-top: 10px;
+    color: #1877f2;
+    text-decoration: none;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+/* Button for creating a new account */
+.button a {
+    display: block;
+    text-align: center;
+    color: #1877f2;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.button a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #f7f7f7;
+    width: 100%;
+    padding: 40px 0;
+    margin-top: 50px;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-langs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.langs, .info-links, .extra-links {
+    padding: 0 20px;
+    flex: 1;
+}
+
+ol {
+    padding-left: 20px;
+}
+
+ol li {
+    list-style: none;
+    margin-bottom: 8px;
+}
+
+ol li a {
+    color: #65676b;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+ol li a:hover {
+    text-decoration: underline;
+}
+
+footer small {
+    color: #65676b;
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+/* Ensure links are responsive and aligned */
+@media (max-width: 768px) {
+    .footer-langs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .langs, .info-links, .extra-links {
+        padding: 0;
+        margin-bottom: 20px;
+    }
+}
